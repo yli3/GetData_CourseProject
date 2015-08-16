@@ -36,7 +36,10 @@ run_analysis <- function() {
     zip.url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
     zip.file <- "data.zip"
     download.file(zip.url, destfile = zip.file, mode = "wb")
-    unzip(zip.file, exdir = "data")
+    unzip(zip.file, exdir = ".")
+    
+    # Rename directory contained in zip for convenience.
+    file.rename("./UCI HAR Dataset", "./data")
   }
   
   # Read in files.

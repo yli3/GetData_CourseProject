@@ -18,6 +18,8 @@ Our aim is to merge the `train` and `test` sets and provide a unified tidy data 
 
 Data cleaning will be done in **R** using the provided **run_analysis.R** file. This file contains a function `run_analysis()` which must be called after the file is sourced. 
 
+Be aware that runtime may be long. Additionally, `run_analysis` will download and unzip the ~60MB archive containing the source dataset if it is not already present.
+
 ### run_analysis()
 
 - **Description**: Acquires and cleans the Human Activity Recognition data to project specifications.
@@ -161,5 +163,5 @@ We now have two tidy datasets, and use `write.table` with `row.name = FALSE` to 
 - `tidy.average.txt`
 
 ### Return value
-Finally, `run_analysis` will also return the two tidy datasets in a named list.
+Finally, `run_analysis` will return the two tidy datasets in a named list.
 
