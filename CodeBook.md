@@ -43,6 +43,16 @@ The following naming convention is used for the 66 measures.
   - *mean* for estimated mean of a signal.
   - *std* for estimated standard deviation of a signal.
 
+### Units
+
+All measures of linear acceleration (measure names containing "Acc" but **not** "Jerk") are in units of standard gravity (`g approx 9.8 m/s^2`) -- that is, in `m/s^2` normalized to standard gravity.
+
+All measures of rotational velocity (measure names containing "Gyro" but **not** "Jerk") are in units of `rad/s`. 
+
+Jerk is the third time derivative of position. As such, all measures of linear jerk (measure names containing "Acc" **and** "Jerk") are `m/s^3`. All measures of angular jerk (measure names containing "Gyro" **and** "Jerk") are `rad/s^3`. 
+
+The jerk measures were obtained by calculating the time derivatives from linear acceleration and angular velocity, respectively. These do not appear to have been normalized in any way, according to the source data documentation.
+
 ### List of measures
 
     tBodyAccX.mean

@@ -44,7 +44,7 @@ The **features.txt** file contains a list of measurement names with one on each 
 
 The **activity_labels.txt** file contains a list of activity labels with one each row. This provides a lookup table for the activity numbers contained in the activity files.
 
-There are further **Inertial Signals** directories in each of the `data/train/` and `data/test/` directories, which contain additional measurement data, but these are not of interest to us.
+There are further **Inertial Signals** directories in each of the `data/train/` and `data/test/` directories, which contain raw sensor data and aren't of interest to us.
 
 ### Trial data measures
 Measurement data for each trial consists of 561 time and frequency domain variables, which are described in `data/features_info.txt`.
