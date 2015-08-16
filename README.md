@@ -3,7 +3,7 @@ This is a completed Course Project assignment for the GETDATA-031 course of the 
 
 ## Introduction
 
-This assignment uses [tidy data](http://vita.had.co.nz/papers/tidy-data.pdf) \[PDF\] principles to clean an example dataset and produce tidy output.
+This assignment uses [tidy data principles \[PDF\]](http://vita.had.co.nz/papers/tidy-data.pdf) to clean an example dataset and produce tidy output.
 
 The data used is the [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) from the University of California at Irvine Machine Learning Repository. The specific file used was acquired from a [cloud archive](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) made available through the course.
 
@@ -49,8 +49,6 @@ There are further **Inertial Signals** directories in each of the `data/train/` 
 ### Trial data measures
 Measurement data for each trial consists of 561 time and frequency domain variables, which are described in `data/features_info.txt`.
 
-Each trial record also has additional associated data for triaxial acceleration and triaxial angular velocity. These are contained in files located in `data/test/Inertial Signals/` and `data/train/Inertial Signals/` but will not be considered in this assignment.
-
 The 561 time and frequency domain variables contain of various statistics (such as mean, max, and standard deviation)  for each of the 33 standard measures. These measures are reproduced below; an `-XYZ` suffix indicates there are three separate values, one for each of the `X`, `Y`, and `Z` axes.
 
     tBodyAcc-XYZ
@@ -85,7 +83,7 @@ We will focus only on `mean` and `std` (standard deviation) measurements of the 
 
 ## Cleaned data objectives
 
-Our objective is to produce dataset according to tidy data principles. This means that each variable measured will be in its own column, and each observation will be in its own row. 
+Our objective is to produce dataset according to tidy data principles.
 
 Additionally, we will be providing the output in narrow, rather than wide form, such that each row contains only one measurement value. Either narrow or wide data may qualify as tidy, and the `reshape2` **R** package provides an easy interface between them.
 

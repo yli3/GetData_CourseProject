@@ -101,7 +101,8 @@ run_analysis <- function() {
   
   # Melt data to convert it to narrow format.
   dt.melt <- melt(dt, 
-    id = c("subject", "group", "activity")
+    id = c("subject", "group", "activity"),
+    variable.name = "measure"
   )
   
   # Create second data.table for trial averages per subject/activity pair.
