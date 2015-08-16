@@ -30,6 +30,10 @@ Data cleaning will be done in **R** using the provided **run_analysis.R** file. 
   - `tidy.whole.txt`: `tidy.whole` data file.
   - `tidy.average.txt`: `tidy.average` data file.
 
+### Clarification
+
+It was advised by a community TA to include this clarification that narrow (alternatively, "tall" or "long") form data is indeed considered "tidy". A discussion of this may be found in Hadley Wickham's tidy data paper referenced above, and also in the [project FAQ](https://class.coursera.org/getdata-031/forum/thread?thread_id=28) in the class discussion forums.
+
 ## State of the original data
 
 ### Files
