@@ -44,49 +44,66 @@ run_analysis <- function() {
   
   # Read in files.
   features <- as.data.table(
-    read.table("data/features.txt", stringsAsFactors = FALSE)
+    read.table(
+      "data/features.txt", 
+      stringsAsFactors = FALSE,
+      col.names = c("number", "name")
+    )
   )
   
   activity <- as.data.table(
-    read.table("data/activity_labels.txt", stringsAsFactors = FALSE)
+    read.table(
+      "data/activity_labels.txt", 
+      stringsAsFactors = FALSE,
+      col.names = c("number", "name")
+    )
   )
 
   train.x <- as.data.table(read.table("data/train/X_train.txt"))
-  train.y <- unlist(read.table("data/train/y_train.txt"))
+  train.y <- as.factor(unlist(read.table("data/train/y_train.txt")))
   train.subject <- unlist(read.table("data/train/subject_train.txt"))
     
   test.x <- as.data.table(read.table("data/test/X_test.txt"))
-  test.y <- unlist(read.table("data/test/y_test.txt"))
+  test.y <- as.factor(unlist(read.table("data/test/y_test.txt")))
   test.subject <- unlist(read.table("data/test/subject_test.txt"))
  
   # Determine measures of interest (mean and std for 33 standard measures).
-  features <- features[grepl("mean\\(\\)|std\\(\\)", features$V2), ]
+  features <- features[grepl("mean\\(\\)|std\\(\\)", features$name), ]
   
   # Subset only columns for measures of interest.
-  train.x <- train.x[, features$V1, with = FALSE]
-  test.x <- test.x[, features$V1, with = FALSE]
+  train.x <- train.x[, features$number, with = FALSE]
+  test.x <- test.x[, features$number, with = FALSE]
   
   # Clean variable names from features.txt:
-  #    1. Remove () and replace "-" with "." for convention.
-  #    2. Correct "BodyBody" to "Body" (it's a typo).
-  #    3. Move "mean" or "std" to the end, for convention.
-  features$V2 <- gsub("\\(\\)", "", features$V2)
-  features$V2 <- gsub("-", ".", features$V2)
-  features$V2 <- gsub("BodyBody", "Body", features$V2)
-  features$V2 <- gsub(".(mean|std).([X-Z])", "\\2.\\1", features$V2)
-  
+  #   1. Remove () and replace "-" with "." for convention.
+  #   2. Rename "t" and "f" to "time" and "freq" for clarity.  
+  #   3. Rename measurement types to be expressive (i.e acceleration, jerk).
+  #   4. Correct "BodyBody" to "Body" (it's a typo).
+  #   5. Move "mean" or "std" (-> "sd") to the end, for convention.
+  #   6. "Mag" -> "Magnitude" and both Magnitude
+  #   7. Make sure both "Magnitude" and "[X-Z]" axis enclosed by "."
+ 
+  features$name <- gsub("\\(\\)", "", features$name)
+  features$name <- gsub("-", ".", features$name)
+  features$name <- gsub("t([A-Z])", "time\\1", features$name)
+  features$name <- gsub("f([A-Z])", "freq\\1", features$name)
+  features$name <- gsub("AccJerk", "LinearJerk", features$name)
+  features$name <- gsub("GyroJerk", "AngularJerk", features$name)
+  features$name <- gsub("Acc", "LinearAcceleration", features$name)
+  features$name <- gsub("Gyro", "AngularVelocity", features$name)
+  features$name <- gsub("BodyBody", "Body", features$name)
+  features$name <- gsub(".(mean|std).([X-Z])", ".\\2.\\1", features$name)
+  features$name <- gsub(".std", ".sd", features$name)
+  features$name <- gsub("Mag.", ".Magnitude.", features$name)
+    
   # Add column names for train and test group records.
-  setnames(train.x, features$V2)
-  setnames(test.x, features$V2)
+  setnames(train.x, features$name)
+  setnames(test.x, features$name)
   
   # Convert activity numbers vector to descriptive names.
-  lapply(activity$V1, 
-    function(e) {
-      train.y <<- gsub(e, activity$V2[e], train.y)
-      test.y <<- gsub(e, activity$V2[e], test.y)
-    }
-  )
-      
+  levels(train.y)[levels(train.y) %in% activity$number] <- activity$name
+  levels(test.y)[levels(test.y) %in% activity$number] <- activity$name
+  
   # Add descriptive activity names for train and test group records.
   train.x$activity <- train.y
   test.x$activity <- test.y
