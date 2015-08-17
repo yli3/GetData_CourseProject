@@ -37,10 +37,10 @@ The following naming convention is used for the 66 measures:
   - *Body* for component of the signal attributed to movement of the human body.
   - *Gravity* for component of the signal attributed to gravity (assumed to be low frequency).
 1. **units**:
-  - *LinearAcceleration* for a measurement of linear acceleration (via accelerometer) in units of standard gravity (*g* approximately `9.8 m/s^2`).
-  - *LinearJerk* for a calculation of linear jerk (time derivative of linear acceleration) in units of `m/s^3`.
+  - *LinearAcceleration* for a normalized measurement of linear acceleration (via accelerometer), in units of standard gravity (*g* being approximately `9.8 m/s<sup>2</sup>`).
+  - *LinearJerk* for a calculation of linear jerk (time derivative of linear acceleration) in units of `m/s<sup>3</sup>`.
   - *AngularVelocity* for a measurement of angular velocity (via gyroscope) in units of `rad/s`.
-  - *AngularJerk* for a calculation of angular jerk (second time derivative of angular velocity) in units of `rad/s^3`.
+  - *AngularJerk* for a calculation of angular jerk (second time derivative of angular velocity) in units of `rad/s<sup>3</sup>`.
 1. **type**:
   - *X*, *Y*, or *Z* for an x-, y-, or z-axis component of a signal.
   - *Magnitude* for the magnitude (Euclidean norm) of a 3-dimensional signal.
