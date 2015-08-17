@@ -40,7 +40,7 @@ The following naming convention is used for the 66 measures:
   - *Magnitude* for the magnitude (Euclidean norm) of a 3-dimensional signal.
 1. **stat**:
   - *mean* for the estimated mean statistic of a signal.
-  - *std* for the estimated standard deviation statistic of a signal.
+  - *sd* for the estimated standard deviation statistic of a signal.
 
 ### List of measures
 

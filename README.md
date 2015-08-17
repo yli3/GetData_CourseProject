@@ -1,5 +1,5 @@
 ## Nota Bene
-This is a completed Course Project assignment for the GETDATA-031 course of the Data Science Specialization offered by the Johns Hopkins Bloomberg School of Public Health in August 2015.
+This is a completed Course Project assignment for the GETDATA-031 course of the Data Science Specialization offered by the Johns Hopkins Bloomberg School of Public Health in August 2015. It will not be forked by me without notice here. If there are doubts about the authenticity of this project, please refer to the commit history.
 
 ## Introduction
 
