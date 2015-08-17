@@ -18,24 +18,23 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
 
 ## Measure Dictionary
 
-There are 66 different measures of interest. These measures are derived from accelerometer and gyroscopic measurements from embedded sensors in Samsung Galaxy SII smartphones. Details for how these particular measurements were derived may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
+There are 66 different measures of interest. These measures were taken by either accelerometer or gyroscope embedded sensors in Samsung Galaxy SII smartphones. Full details of sensor parameters may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
 
 The following naming convention is used for the 66 measures.
 
-    prefix + component + sensor + jerk? + type + "." + stat
+    prefix + component + units + "."type"." + stat
 
 1. **prefix**: 
-  - *t* for a time-domain signal.
-  - *f* for a frequency-domain signal.
+  - *time* for a time-domain signal.
+  - *freq* for a frequency-domain signal.
 1. **component**:
   - *Body* for body component of a signal.
   - *Gravity* for gravity component of a signal.
-1. **sensor**:
-  - *Acc* for an accelerometer-sourced signal.
-  - *Gyro* for a gyroscope-sourced signal.
-1. **jerk?**:
-  - *Jerk* for a measure of jerk (the time derivative of acceleration)
-  - blank for a non-jerk measure.
+1. **units**:
+  - *LinearAcceleration* for a measurement of linear acceleration (via accelerometer) in units of standard gravity (*g* approximately `9.8 m/s^2`).
+  - *LinearJerk* for a calculation of linear jerk (time derivative of linear acceleration) in units of `m/s^3`.
+  - *AngularVelocity* for a measurement of angular velocity (via gyroscope) in units of `rad/s`.
+  - *AngularJerk* for a calculation of angular jerk (second time derivative of angular velocity) in units of `rad/s^3`.
 1. **type**:
   - *X*, *Y*, or *Z* for an x-, y-, or z-axis component of a signal.
   - *Mag* for the magnitude (Euclidean norm) of a 3-dimensional signal.
@@ -43,81 +42,71 @@ The following naming convention is used for the 66 measures.
   - *mean* for estimated mean of a signal.
   - *std* for estimated standard deviation of a signal.
 
-### Units
-
-All measures of linear acceleration (measure names containing "Acc" but **not** "Jerk") are in units of standard gravity (`g approx 9.8 m/s^2`) -- that is, in `m/s^2` normalized to standard gravity.
-
-All measures of rotational velocity (measure names containing "Gyro" but **not** "Jerk") are in units of `rad/s`. 
-
-Jerk is the third time derivative of position. As such, all measures of linear jerk (measure names containing "Acc" **and** "Jerk") are `m/s^3`. All measures of angular jerk (measure names containing "Gyro" **and** "Jerk") are `rad/s^3`. 
-
-The jerk measures were obtained by calculating the time derivatives from linear acceleration and angular velocity, respectively. These do not appear to have been normalized in any way, according to the source data documentation.
-
 ### List of measures
 
-    tBodyAccX.mean
-    tBodyAccY.mean
-    tBodyAccZ.mean
-    tBodyAccX.std
-    tBodyAccY.std
-    tBodyAccZ.std
-    tGravityAccX.mean
-    tGravityAccY.mean
-    tGravityAccZ.mean
-    tGravityAccX.std
-    tGravityAccY.std
-    tGravityAccZ.std
-    tBodyAccJerkX.mean
-    tBodyAccJerkY.mean
-    tBodyAccJerkZ.mean
-    tBodyAccJerkX.std
-    tBodyAccJerkY.std
-    tBodyAccJerkZ.std
-    tBodyGyroX.mean
-    tBodyGyroY.mean
-    tBodyGyroZ.mean
-    tBodyGyroX.std
-    tBodyGyroY.std
-    tBodyGyroZ.std
-    tBodyGyroJerkX.mean
-    tBodyGyroJerkY.mean
-    tBodyGyroJerkZ.mean
-    tBodyGyroJerkX.std
-    tBodyGyroJerkY.std
-    tBodyGyroJerkZ.std
-    tBodyAccMag.mean
-    tBodyAccMag.std
-    tGravityAccMag.mean
-    tGravityAccMag.std
-    tBodyAccJerkMag.mean
-    tBodyAccJerkMag.std
-    tBodyGyroMag.mean
-    tBodyGyroMag.std
-    tBodyGyroJerkMag.mean
-    tBodyGyroJerkMag.std
-    fBodyAccX.mean
-    fBodyAccY.mean
-    fBodyAccZ.mean
-    fBodyAccX.std
-    fBodyAccY.std
-    fBodyAccZ.std
-    fBodyAccJerkX.mean
-    fBodyAccJerkY.mean
-    fBodyAccJerkZ.mean
-    fBodyAccJerkX.std
-    fBodyAccJerkY.std
-    fBodyAccJerkZ.std
-    fBodyGyroX.mean
-    fBodyGyroY.mean
-    fBodyGyroZ.mean
-    fBodyGyroX.std
-    fBodyGyroY.std
-    fBodyGyroZ.std
-    fBodyAccMag.mean
-    fBodyAccMag.std
-    fBodyAccJerkMag.mean
-    fBodyAccJerkMag.std
-    fBodyGyroMag.mean
-    fBodyGyroMag.std
-    fBodyGyroJerkMag.mean
-    fBodyGyroJerkMag.std
+    timeBodyLinearAcceleration.X.mean
+    timeBodyLinearAcceleration.Y.mean
+    timeBodyLinearAcceleration.Z.mean
+    timeBodyLinearAcceleration.X.sd
+    timeBodyLinearAcceleration.Y.sd
+    timeBodyLinearAcceleration.Z.sd
+    timeGravityLinearAcceleration.X.mean
+    timeGravityLinearAcceleration.Y.mean
+    timeGravityLinearAcceleration.Z.mean
+    timeGravityLinearAcceleration.X.sd
+    timeGravityLinearAcceleration.Y.sd
+    timeGravityLinearAcceleration.Z.sd
+    timeBodyLinearJerk.X.mean
+    timeBodyLinearJerk.Y.mean
+    timeBodyLinearJerk.Z.mean
+    timeBodyLinearJerk.X.sd
+    timeBodyLinearJerk.Y.sd
+    timeBodyLinearJerk.Z.sd
+    timeBodyAngularVelocity.X.mean
+    timeBodyAngularVelocity.Y.mean
+    timeBodyAngularVelocity.Z.mean
+    timeBodyAngularVelocity.X.sd
+    timeBodyAngularVelocity.Y.sd
+    timeBodyAngularVelocity.Z.sd
+    timeBodyAngularJerk.X.mean
+    timeBodyAngularJerk.Y.mean
+    timeBodyAngularJerk.Z.mean
+    timeBodyAngularJerk.X.sd
+    timeBodyAngularJerk.Y.sd
+    timeBodyAngularJerk.Z.sd
+    timeBodyLinearAcceleration.Magnitude.mean
+    timeBodyLinearAcceleration.Magnitude.sd
+    timeGravityLinearAcceleration.Magnitude.mean
+    timeGravityLinearAcceleration.Magnitude.sd
+    timeBodyLinearJerk.Magnitude.mean
+    timeBodyLinearJerk.Magnitude.sd
+    timeBodyAngularVelocity.Magnitude.mean
+    timeBodyAngularVelocity.Magnitude.sd
+    timeBodyAngularJerk.Magnitude.mean
+    timeBodyAngularJerk.Magnitude.sd
+    freqBodyLinearAcceleration.X.mean
+    freqBodyLinearAcceleration.Y.mean
+    freqBodyLinearAcceleration.Z.mean
+    freqBodyLinearAcceleration.X.sd
+    freqBodyLinearAcceleration.Y.sd
+    freqBodyLinearAcceleration.Z.sd
+    freqBodyLinearJerk.X.mean
+    freqBodyLinearJerk.Y.mean
+    freqBodyLinearJerk.Z.mean
+    freqBodyLinearJerk.X.sd
+    freqBodyLinearJerk.Y.sd
+    freqBodyLinearJerk.Z.sd
+    freqBodyAngularVelocity.X.mean
+    freqBodyAngularVelocity.Y.mean
+    freqBodyAngularVelocity.Z.mean
+    freqBodyAngularVelocity.X.sd
+    freqBodyAngularVelocity.Y.sd
+    freqBodyAngularVelocity.Z.sd
+    freqBodyLinearAcceleration.Magnitude.mean
+    freqBodyLinearAcceleration.Magnitude.sd
+    freqBodyLinearJerk.Magnitude.mean
+    freqBodyLinearJerk.Magnitude.sd
+    freqBodyAngularVelocity.Magnitude.mean
+    freqBodyAngularVelocity.Magnitude.sd
+    freqBodyAngularJerk.Magnitude.mean
+    freqBodyAngularJerk.Magnitude.sd

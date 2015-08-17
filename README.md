@@ -12,15 +12,15 @@ The data used is the [Human Activity Recognition Using Smartphones Data Set](htt
 
 The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial. Of these, we are interested in 66 measurements. Those measurements and the data structure of the output are described in detail in the included **CodeBook.md**.
 
-Our aim is to merge the `train` and `test` sets and provide a unified tidy data set containing the 66 measures of interest for each trial record.
+Our aim is to merge the `train` and `test` sets and provide two tidy datasets: one containing records of the 66 measures of interest for all trials, and one containing average values of the 66 measures over trials conducted by the same subject for the same activity.
 
 ## Instructions
 
-Data cleaning will be done in **R** using the provided **run_analysis.R** file. This file contains a function `run_analysis()` which must be called after the file is sourced. 
+Source `run_analysis.R` and call the function `run_analysis()`. The data files are expected to be located in a `./data` subdirectory of the working directory; it will be automatically acquired if not present. 
 
-Be aware that runtime may be long. Additionally, `run_analysis` will download and unzip the ~60MB archive containing the source dataset if it is not already present.
+*n.b.* the .zip file provides data in a folder called "UCI HAR Dataset". This folder should be **renamed** to `data` open extraction; alternatively, leave download and extraction to `run_analysis`.
 
-### run_analysis()
+### run_analysis() Specification
 
 - **Description**: Acquires and cleans the Human Activity Recognition data to project specifications.
 - **Arguments**: None.
@@ -32,15 +32,11 @@ Be aware that runtime may be long. Additionally, `run_analysis` will download an
   - `tidy.whole.txt`: `tidy.whole` data file.
   - `tidy.average.txt`: `tidy.average` data file.
 
-### Clarification
-
-It was advised by a community TA to include this clarification that narrow (alternatively, "tall" or "long") form data is indeed considered "tidy". A discussion of this may be found in Hadley Wickham's tidy data paper referenced above, and also in the [project FAQ](https://class.coursera.org/getdata-031/forum/thread?thread_id=28) in the class discussion forums.
-
 ## State of the original data
 
 ### Files
 
-The **trial data** files contain measurement data for each trial conducted as part of either the train (`data/train/X_train.txt`) or test (`data/test/X_test.txt`) groups. There is one vector of measurements on each row.
+The **trial data** files contain measurement data for each trial conducted as part of either the train (`data/train/X_train.txt`) or test (`data/test/X_test.txt`) groups. There is one vector (of 561 measurements) on each row.
 
 The **subject** files (`data/train/subject_train.txt` and `data/test/subject_test.txt`) correspond to the trial data files. They indicate, for each row in the trial data file, from which subject (identified by a number ranging from 1 to 30) the measurements were taken.
 
@@ -107,61 +103,19 @@ The information contained in our tidy output data will fall into two categories:
   - **value**: for the `tidy.whole` dataset; this is the measured value for a given trial record.
   - **average**: for the `tidy.average` dataset only; this is a mean value across all trials for a given subject/activity pair.
   
-## Method
+## run_analysis() Summary
 
-A summary of the `run_analysis` function follows.
+`run_analysis` makes use of the `data.table` and `reshape2` packages. It will follow the sequence below:
 
-### Package dependencies
 
-`run_analysis` will load and use the `data.table` and `reshape2` packages in **R**.
-
-### Acquiring data
-
-`run_analysis` will first check if the data is already present by looking for all required `.txt` files in the `data/` subdirectory of the working directory.
-
-If the data is not present, then `run_analysis` will download the data from the [cloud archive](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) previously mentioned, and unzip the downloaded archive into a `data/` subdirectory.
-
-### Cleaning data
-
-`run_analysis` will read all trial data, subject, and activity files, as well as the features and activity files which will be used as mapping tables.
-
-### Measure names
-Regular expression pattern matching will be used on the data from `features.txt` in order to determine the column numbers and names of our 66 measures of interest. Additional use of regular expressions will convert the provided variable names to use period notation, so that the resulting column names will be of form `measure.mean` and `measure.std`. A typo in in the provided `features.txt` file will also be corrected.
-
-The matching column numbers will be used to subset the trial data tables, and the fixed names will be used to provide column (variable) names for each measure in the resulting subsets.
-
-### Activity names and subject numbers
-We replace the numeric activity identifiers from `y_train.txt` and `y_test.txt` with the corresponding descriptive names from `activity_labels.txt`, in service of tidy data principles.
-
-The activity names for each record, along with subject numbers from the `subject_train.txt` and `subject_test.txt` files, are incorporated into each measures data table.
-
-### Subject groups
-An additional variable is created for each measures data table indicating whether the subject belonged to the `trial` or `test` group.
-
-The `trial` and `test` measures tables -- which now contain activity, subject, and group identifiers -- are then merged together.
-
-### Narrow data
-Although tidy data may be presented in either narrow or wide form, we elect to use narrow format for easy readability. 
-
-To do this, we use **R**'s `reshape2` package. Its `melt` function will convert the data, originally in wide form, to narrow form. We will use `activity`, `subject`, and `group` as identifiers.
-
-We have now created a narrow, tidy dataset of our 66 measures of interest, across all trial records in the original data. This dataset will be called `tidy.whole`.
-
-### Averages
-Each (of 30) subject performed trials for each (of 6) activity multiple times, and data from each trial is contained in the `tidy.whole` dataset.
-
-We are also interested in the trial averages, and to that end will produce a second data set, also in narrow format, and derived from the first. 
-
-This dataset will likewise hold `activity`, `subject`, and `group` as identifiers. Its value variable will be the *average* `measure` result from above for each subject/activity pair.
-
-This dataset will be called `tidy.average`.
-
-### File output
-We now have two tidy datasets, and use `write.table` with `row.name = FALSE` to write each one to file. This results in the creation of two files in the working directory:
-
-- `tidy.whole.txt`
-- `tidy.average.txt`
-
-### Return value
-Finally, `run_analysis` will return the two tidy datasets in a named list.
-
+1. **Acquire data**: A check is first made to ensure the data is already present in a `./data` subdirectory of the working directory. If not, it is acquired from [cloudfront archive](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
+1. **Read data**: Data is read in. `X_train.txt` and `X_test.txt` are read as `data.table` objects. Other files -- `activity.txt`, `features.txt`, `y_train.txt`, `y_test.txt`, `subject_train.txt`, and `subject_test.txt` -- are read as auxiliary data in various formats to help us complete and clean the `train` and `test` datasets for tidy output.
+1. **Cleaning data**:
+  - **Feature selection**: Subset the 66 measures of interest from the `train` and `test` datasets by pattern matching `features.txt`.
+  - **Expressive measure names**: Assign expressive variable names to the `train`/`test` datasets. Pattern substitution is employed to conform original `features.txt` names to our own convention as detailed in **CodeBook.md**.
+  - **Add identifying variables**: Add to the `train`/`test` datasets variables for subject number (from `subject_*.txt`), activity name (from `y_*.txt`, mapped to `activity.txt`), and group (either "train" or "test"). 
+1. **Merge datasets**: The completed and cleaned `trial` and `test` datasets are merged into one dataset.
+1. **Narrow data: tidy.whole**: The combined dataset is molten into tidy narrow (also known as "long" or "tall") form using the `reshape2` package's `melt` function. `Activity`, `subject`, and `group` are taken as identifiers. This is now the `tidy.whole` dataset.
+1. **Averages over trials**: Each (of 30) subjects performed trials for each (of 6) activities multiple times. The per-activity average measurements for each subject are calculated and gathered into a dataset we call `tidy.average`.
+1. **File output**: The two tidy datasets will be written to the working directory as `tidy.whole.txt` and `tidy.average.txt` using `write.table` with `row.name = FALSE`.
+1. **Return**: Finally, the two tidy datasets are returned as `data.table` objects in a named list, with names `tidy.whole` and `tidy.average`.
