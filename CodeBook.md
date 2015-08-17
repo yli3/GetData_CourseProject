@@ -6,12 +6,12 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
 - `subject`:  `integer(1)` with possible values from 1 to 30.
 - `group`: `character(1)`, either "train" or "test".
 - `activity`: `factor`, with six levels:
-  - WALKING
-  - WALKING\_UPSTAIRS
-  - WALKING\_DOWNSTAIRS
-  - SITTING
-  - STANDING
-  - LAYING
+  - `walking`
+  - `walkingUpstairs`
+  - `walkingDownstairs`
+  - `sitting`
+  - `standing`
+  - `laying`
 - `trialNumber`: `integer(1)`, a unique identifier for trial number of a subject/activity pair. (*`tidy.whole`* only)
 - `measure`: `factor` with 66 levels, indicating the type of measure. Possible values enumerated and described in detail in the following section.
 - `value`: `numeric(1)` measurement value for a given trial. (*`tidy.whole`* only) 

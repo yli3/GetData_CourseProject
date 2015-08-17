@@ -99,9 +99,9 @@ The information contained in our tidy output data will fall into two categories:
 
 ### Identifying variables
 
-  - **subject**: identifies the subject by number (from 1 to 30).
-  - **activty**: identifies the activity by name (either WALKING, WALKING\_UPSTAIRS, WALKING\_DOWNSTAIRS, SITTING, STANDING, or LAYING)
-  - **group**: identifies to which group the subject belonged (either "train" or "test")
+  - **subject**: identifies the subject by number.
+  - **activty**: identifies the activity by name.
+  - **group**: identifies to which group the subject belonged (either "train" or "test").
   - **trialNumber**: for the `tidy.whole` dataset; this indicates the unique trial number for a subject/activity pair and allows each observation to be uniquely identified.
   - **measure**: identifies the type of measure (of 66 measures of interest). The possible values are delineated in `CodeBook.md`.
   
@@ -118,7 +118,7 @@ The information contained in our tidy output data will fall into two categories:
 1. **Read data**: Data is read in formats as appropriate.
 1. **Cleaning data**:
   - **Feature selection**: Cull only the 66 measures of interest from the read data.
-  - **Expressive variable names**: Assign expressive variable names to the data, using pattern matching where appropriate to conform provided names to our own convention (refer to **CodeBook.md**). 
+  - **Expressive variable names**: Assign expressive variable names and values to the data, using pattern matching where appropriate to conform provided names to our own convention (refer to **CodeBook.md**). 
   - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), group (either "train" or "test"), and trial number (determined by index count within distinct subject/activity pairs). *n.b.* group and trial number are not strictly required, but for our purposes are considered helpful for tidy principles.
   - **Merge data**: Combine all data related to test and trial groups in one dataset.
 1. **tidy.whole**: The combined, augmented dataset is molten into narrow form using the `reshape2` package's `melt` function. ``Subject`, `group`, `activity`, and `trialNumber` are taken as identifiers. This is now the `tidy.whole` dataset.

@@ -111,6 +111,14 @@ run_analysis <- function() {
   subject.whole <- c(train.subject, test.subject)
   
   # Convert activity numbers vector to descriptive names.
+  activity$name <- gsub(
+    # Conform names to camelCase first.
+    "_([a-z])", 
+    "\\U\\1",
+    tolower(activity$name),
+    perl = TRUE
+  )
+  
   y.whole <- factor(y.whole, levels = activity$number, labels = activity$name)
 
   # Add "activity" and "subject" variables to dataset.
