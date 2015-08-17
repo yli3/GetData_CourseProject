@@ -19,7 +19,7 @@ run_analysis <- function() {
   # Libraries.
   library(data.table)
   library(reshape2)
-  
+
   # Check all required files exist.
   required.files <- c(
     "data/features.txt",
@@ -61,13 +61,13 @@ run_analysis <- function() {
   )
 
   train.x <- as.data.table(read.table("data/train/X_train.txt"))
-  train.y <- as.factor(unlist(read.table("data/train/y_train.txt")))
+  train.y <- unlist(read.table("data/train/y_train.txt"))
   train.subject <- unlist(read.table("data/train/subject_train.txt"))
     
   test.x <- as.data.table(read.table("data/test/X_test.txt"))
-  test.y <- as.factor(unlist(read.table("data/test/y_test.txt")))
+  test.y <- unlist(read.table("data/test/y_test.txt"))
   test.subject <- unlist(read.table("data/test/subject_test.txt"))
- 
+  
   # Determine measures of interest (mean and std for 33 standard measures).
   features <- features[grepl("mean\\(\\)|std\\(\\)", features$name), ]
   
@@ -96,50 +96,51 @@ run_analysis <- function() {
   features$name <- gsub(".(mean|std).([X-Z])", ".\\2.\\1", features$name)
   features$name <- gsub(".std", ".sd", features$name)
   features$name <- gsub("Mag.", ".Magnitude.", features$name)
-    
-  # Add column names for train and test group records.
+ 
+  # Give descriptive column names for 66 measures of interest.
   setnames(train.x, features$name)
   setnames(test.x, features$name)
-  
-  # Convert activity numbers vector to descriptive names.
-  levels(train.y)[levels(train.y) %in% activity$number] <- activity$name
-  levels(test.y)[levels(test.y) %in% activity$number] <- activity$name
-  
-  # Add descriptive activity names for train and test group records.
-  train.x$activity <- train.y
-  test.x$activity <- test.y
-  
-  # Add subject numbers for train and test group records.
-  train.x$subject <- train.subject
-  test.x$subject <- test.subject
-  
-  # Create new variable to preserve original group information.
+
+  # Add "group" variable to preserve original group information.
   train.x$group <- "train"
   test.x$group <- "test"
   
-  # Merge test and train group records together to one data.table.
-  dt <- rbind(train.x, test.x)
+  # Merge train and test groups.
+  dt.whole <- rbind(train.x, test.x)
+  y.whole <- c(train.y, test.y)
+  subject.whole <- c(train.subject, test.subject)
   
-  # Melt data to convert it to narrow format.
-  dt.melt <- melt(dt, 
-    id = c("subject", "group", "activity"),
+  # Convert activity numbers vector to descriptive names.
+  y.whole <- factor(y.whole, levels = activity$number, labels = activity$name)
+
+  # Add "activity" and "subject" variables to dataset.
+  dt.whole$activity <- y.whole
+  dt.whole$subject <- subject.whole
+
+  # Create "trialNumber" variable as counter for different trials
+  # of the same activity type performed by each subject.
+  dt.whole[, trialNumber := seq_len(nrow(.SD)), by = .(subject, activity)]
+
+  # Melt data.whole into tidy narrow format.
+  tidy.whole <- melt(dt.whole, 
+    id = c("subject", "group", "activity", "trialNumber"),
     variable.name = "measure"
   )
   
   # Create second data.table for trial averages per subject/activity pair.
-  dt.melt.average <- dt.melt[, 
+  tidy.average <- tidy.whole[, 
     .(average = mean(value)),
     by = .(subject, group, activity, measure)
   ]
   
   # Output both files.
-  write.table(dt.melt, file = "tidy.whole.txt", row.names = FALSE)
-  write.table(dt.melt.average, file = "tidy.average.txt", row.names = FALSE)
+  write.table(tidy.whole, file = "tidy.whole.txt", row.names = FALSE)
+  write.table(tidy.average, file = "tidy.average.txt", row.names = FALSE)
   
   # Return data tables in named list.
   invisible(list(
-    tidy.whole = dt.melt,
-    tidy.average = dt.melt.average
+    tidy.whole = tidy.whole,
+    tidy.average = tidy.average
   ))
 
 }

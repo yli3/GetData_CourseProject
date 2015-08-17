@@ -12,9 +12,10 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
   - SITTING
   - STANDING
   - LAYING
+- `trialNumber`: integer(1), a unique identifier for trial number of a subject/activity pair.
 - `measure`: `factor` with 66 levels, indicating the type of measure. Possible values enumerated and described in detail in the following section.
 - `value`: `numeric(1)` measurement value for a given trial. (*`tidy.whole`* only) 
-- `average`: `numeric(1)` measurement average value over all trials for a given subject/activity pair. (*`tidy.average`* only)
+- `average`: `numeric(1)` measurement average value over all trials for a subject/activity pair. (*`tidy.average`* only)
 
 ## Measure Dictionary
 
@@ -24,7 +25,7 @@ Both the accelerometer and the gyroscope produce triaxial signals -- that is, se
 
 In addition to independent axial data, the Euclidean norm is used to consider the magnitude of the whole triaxial signal.
 
-Full details of sensor parameters and calculation steps may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
+Full details of sensor parameters and calculation steps may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset. 
 
 The following naming convention is used for the 66 measures:
 
@@ -52,7 +53,7 @@ For example,
 
      freqBodyLinearAcceleration.Magnitude.mean
 
-denotes the frequency-domain value of the estimated mean linear acceleration triaxial signal magnitude. Because this is a linear rather than angular measurement, it comes from the embedded accelerometer signals. Because this is a linear acceleration measurement, it is in units of standard gravity units *g*.
+denotes the frequency-domain value of the estimated mean linear acceleration triaxial signal magnitude. Because this is a linear rather than angular measurement, it comes from the embedded accelerometer signals. Because this is a linear acceleration measurement, it is in units of standard gravities *g*.
 
 ### List of measures
 

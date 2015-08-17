@@ -12,7 +12,13 @@ The data used is the [Human Activity Recognition Using Smartphones Data Set](htt
 
 The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial. Of these, we are interested in 66 measures; they are described in detail in the included **CodeBook.md**.
 
-Our aim is to provide tidy datasets for the unified experiment (that is, including all subjects from both `train` and `test` groups). 
+### Goals
+Our aim is to provide tidy datasets for the unified experiment (that is, including all subjects from both `train` and `test` groups). Two tidy datasets will be provided:
+
+1. **tidy.whole**, a narrow dataset which includes all trials
+2. **tidy.average**, a narrow dataset of averages over trials of the same activity performed by each subject.
+
+Both datasets will only include 66 measures of interest from the study. Please note that there are many valid interpretations, including this one, of which measures should be of interest to this assignment.
 
 ## Instructions
 
@@ -20,7 +26,7 @@ Source `run_analysis.R` and call the function `run_analysis()`. The data files a
 
 *n.b.* the .zip file provides data in a folder called "UCI HAR Dataset". This folder should be renamed to `data` upon extraction; alternatively, leave download and extraction to `run_analysis`.
 
-### run_analysis() Specification
+## run_analysis() Specification
 
 - **Description**: Acquires and cleans the Human Activity Recognition data to project specifications.
 - **Arguments**: None.
@@ -96,12 +102,13 @@ The information contained in our tidy output data will fall into two categories:
   - **subject**: identifies the subject by number (from 1 to 30).
   - **activty**: identifies the activity by name (either WALKING, WALKING\_UPSTAIRS, WALKING\_DOWNSTAIRS, SITTING, STANDING, or LAYING)
   - **group**: identifies to which group the subject belonged (either "train" or "test")
+  - **trialNumber**: for the `tidy.whole` dataset; this indicates the unique trial number for a subject/activity pair.
   - **measure**: identifies the type of measure, of the 66 measures of interest. The names are listed in `CodeBook.md`.
   
 ### Measurement variables
 
   - **value**: for the `tidy.whole` dataset; this is the measured value for a given trial record.
-  - **average**: for the `tidy.average` dataset only; this is a mean value across all trials for a given subject/activity pair.
+  - **average**: for the `tidy.average` dataset only; this is a mean value across all trials for a subject/activity pair.
   
 ## run_analysis() Summary
 
@@ -113,10 +120,10 @@ The information contained in our tidy output data will fall into two categories:
 1. **Cleaning data**:
   - **Feature selection**: Subset the 66 measures of interest from the `train` and `test` datasets by pattern matching `features.txt`.
   - **Expressive measure names**: Assign expressive variable names to the `train`/`test` datasets. Pattern substitution is employed to conform original `features.txt` names to our own convention as detailed in **CodeBook.md**.
-  - **Add identifying variables**: Add to the `train`/`test` datasets variables for subject number (from `subject_*.txt`), activity name (from `y_*.txt`, mapped to `activity.txt`), and group (either "train" or "test"). 
-1. **Merge datasets**: The completed and cleaned `trial` and `test` datasets are merged into one dataset.
-1. **Narrow data: tidy.whole**: The combined dataset is molten into tidy narrow (also known as "long" or "tall") form using the `reshape2` package's `melt` function. `Activity`, `subject`, and `group` are taken as identifiers. This is now the `tidy.whole` dataset.
-1. **Averages over trials**: Each (of 30) subjects performed trials for each (of 6) activities multiple times. The per-activity average measurements for each subject are calculated and gathered into a dataset we call `tidy.average`.
+  - **Merge datasets**: The `train` and `test` datasets are merged together.
+  - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), group (either "train" or "test"), and trial number (determined by index count within distinct subject/activity pairs).
+1. **Narrow data: tidy.whole**: The combined, augmented dataset is molten into tidy narrow (also known as "long" or "tall") form using the `reshape2` package's `melt` function. ``Subject`, `group`, `activity`, and `trialNumber` are taken as identifiers. This is now the `tidy.whole` dataset.
+1. **Averages over trials: tidy.average**: Each (of 30) subjects performed trials for each (of 6) activities multiple times. The per-activity average measurements for each subject are calculated and gathered into a dataset we call `tidy.average`.
 1. **File output**: The two tidy datasets will be written to the working directory as `tidy.whole.txt` and `tidy.average.txt` using `write.table` with `row.name = FALSE`.
 1. **Return**: Finally, the two tidy datasets are returned as `data.table` objects in a named list, with names `tidy.whole` and `tidy.average`.
 
