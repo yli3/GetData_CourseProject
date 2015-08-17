@@ -1,5 +1,5 @@
 ## Introduction
-This codebook describes the structure of the `tidy.whole` and `tidy.average` datasets, and provides a dictionary for variables contained in these datasets.
+This codebook describes the structure of the `har.tidy` dataset, and provides a dictionary for variables contained in these datasets.
 
 ## Structure
 
@@ -12,14 +12,12 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
   - `sitting`
   - `standing`
   - `laying`
-- `trialNumber`: `integer(1)`, a unique identifier for trial number of a subject/activity pair. (*`tidy.whole`* only)
 - `measure`: `factor` with 66 levels, indicating the type of measure. Possible values enumerated and described in detail in the following section.
-- `value`: `numeric(1)` measurement value for a given trial. (*`tidy.whole`* only) 
-- `average`: `numeric(1)` measurement average value over all trials for a subject/activity pair. (*`tidy.average`* only)
+- `trialAverage`: `numeric(1)` measurement average value over all trials for a subject/activity pair. (*`tidy.average`* only)
 
 ## Measure Dictionary
 
-There are 66 different measures of interest. These measures were taken by either accelerometer (which measures linear acceleration and, via time derivative, linear jerk) or gyroscope (which measures angular velocity and, via the second time derivative, angular jerk) embedded sensors in Samsung Galaxy SII smartphones.
+There are 66 different measures of interest. These measures are "mean" and "standard deviation" calculations from 33 distinct signals taken by either accelerometer (which measures linear acceleration and, via time derivative, linear jerk) or gyroscope (which measures angular velocity and, via the second time derivative, angular jerk) embedded sensors in Samsung Galaxy SII smartphones.
 
 Both the accelerometer and the gyroscope produce triaxial signals -- that is, separate signals for the *X*, *Y*, and *Z* axes. These signals were filtered for noise and further filtered into separate "Body" and "Gravity" components by assuming the components of the signals due to gravity were low frequency components.
 

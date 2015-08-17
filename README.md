@@ -13,17 +13,11 @@ The dataset used is the [Human Activity Recognition Using Smartphones Data Set](
 The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial.
 
 ### Goals
-Our aim is to provide tidy datasets for the unified experiment (that is, including all subjects from both `train` and `test` groups). Two tidy datasets will be provided:
+Our aim is to provide a tidy datasets for the unified experiment (that is, including all subjects from both `train` and `test` groups). The tidy dataset will consist of average measurements over trials of the same activity performed by each subject, and will only include "mean" and "standard deviation" measures for each distinct signal type recorded or calculated in the original study. These measures are enumerated in the included **CodeBook.md**.
 
-1. **tidy.whole**, a narrow dataset which includes measurements from all trials
-2. **tidy.average**, a narrow dataset of average measurements over trials of the same activity performed by each subject.
-
-Both tidy datasets will only include 66 measures of interest from the original study -- the mean, and the standard deviation of the 33 different signal types recorded by the study. They are described in detail in the included **CodeBook.md**.
-
-A note to the reader: our selection of "measures of interest" according to project specifications is open to different interpretations which are all valid as long as they are documented. There were 33 distinct signal types recorded in the study, and the explicitly defined "mean" and "standard deviation" estimates were regarded as part of the project specification. Other estimates and calculations such as "weighted average frequency component mean" and "averaged signals in signal window sample of angles between vectors" were not regarded as specified.
+A note to the reader: our selection of "measures of interest" according to project specifications is open to different interpretations which are all valid as long as they are documented. There were 33 distinct signal types recorded in the study, and only the explicitly defined "mean" and "standard deviation" estimates were regarded as part of the project specification - for 66 total measures of interest. Other estimates and calculations such as "weighted average frequency component mean" and "averaged signals in signal window sample of angles between vectors" were not regarded as specified.
 
 ## Instructions
-
 Source `run_analysis.R` and call the function `run_analysis()`. The data files are expected to be located in a `./data` subdirectory of the working directory; they will be automatically acquired if not present. 
 
 *n.b.* the .zip file provides data in a folder called "UCI HAR Dataset". This folder should be renamed to `data` upon extraction; alternatively, leave download and extraction to `run_analysis`.
@@ -32,13 +26,9 @@ Source `run_analysis.R` and call the function `run_analysis()`. The data files a
 
 - **Description**: Acquires and cleans the Human Activity Recognition data to project specifications.
 - **Arguments**: None.
-- **Return**: A named list with two list elements:
-  - `tidy.whole`: A narrow, tidy `data.table` object containing *all* (every trial) data for each of 66 standard measures described in the CodeBook. That is, data 
-  - `tidy.average`: A narrow, tidy `data.table` object containing *average* (mean over all trials, for each subject/activity pair) values of each of the 66 standard measures.
+- **Return**: A narrow, tidy `data.table` object containing *average* (mean over all trials, for each subject/activity pair) values of both mean and standard deviation estimates of distinct signal types recorded in the original study.
 - **Inputs**: UCI Human Activity Recognition data (acquired within the function if not present) located in a `data/` directory located within the working directory.
-- **Outputs**: Data files in space-delimited format, written to the working directory:
-  - `tidy.whole.txt`: `tidy.whole` data file.
-  - `tidy.average.txt`: `tidy.average` data file.
+- **Outputs**: `har.tidy.txt`: a space delimited data file containing the returned tidy data.
 
 ## State of the original data
 
@@ -91,9 +81,8 @@ We wil additionally adhere to the following principles:
 
 1. Descriptive and meaningful variable names
 1. Expressive variable values
-1. Uniquely identifiable observations
 
-Additionally, we elect to provide the data in narrow (also referred to as "tall" or "long"), rather than wide form, such that each table has only one measurement column. Either narrow or wide data may qualify as tidy, and the `reshape2` **R** package provides an easy interface between them.
+We elect to provide the data in narrow (also referred to as "tall" or "long"), rather than wide form, such that each table has only one measurement column. Either narrow or wide data may qualify as tidy, and the `reshape2` **R** package provides an easy interface between them.
 
 The information contained in our tidy output data will fall into two categories: **identifying variables** and **measurement variables**.
 
@@ -102,13 +91,11 @@ The information contained in our tidy output data will fall into two categories:
   - **subject**: identifies the subject by number.
   - **activty**: identifies the activity by name.
   - **group**: identifies to which group the subject belonged (either "train" or "test").
-  - **trialNumber**: for the `tidy.whole` dataset; this indicates the unique trial number for a subject/activity pair and allows each observation to be uniquely identified.
   - **measure**: identifies the type of measure (of 66 measures of interest). The possible values are delineated in `CodeBook.md`.
   
 ### Measurement variables
 
-  - **value**: for the `tidy.whole` dataset; this is the measured value for a given trial record.
-  - **average**: for the `tidy.average` dataset only; this is a mean value across all trials for a subject/activity pair.
+  - **trialAverage**: average (arithmetic mean) value across all trials for a subject/activity pair.
   
 ## run_analysis() Summary
 
@@ -119,12 +106,11 @@ The information contained in our tidy output data will fall into two categories:
 1. **Cleaning data**:
   - **Feature selection**: Cull only the 66 measures of interest from the read data.
   - **Expressive variable names**: Assign expressive variable names and values to the data, using pattern matching where appropriate to conform provided names to our own convention (refer to **CodeBook.md**). 
-  - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), group (either "train" or "test"), and trial number (determined by index count within distinct subject/activity pairs). *n.b.* group and trial number are not strictly required, but for our purposes are considered helpful for tidy principles.
+  - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), and group (either "train" or "test"). *n.b.* group is not strictly specified, but we want to prevent loss of data resolution.
   - **Merge data**: Combine all data related to test and trial groups in one dataset.
-1. **tidy.whole**: The combined, augmented dataset is molten into narrow form using the `reshape2` package's `melt` function. ``Subject`, `group`, `activity`, and `trialNumber` are taken as identifiers. This is now the `tidy.whole` dataset.
-1. **tidy.average**: Each (of 30) subjects performed trials for each (of 6) activities multiple times. The per-activity average over trials measurements for each subject are calculated and gathered into a dataset we call `tidy.average`.
-1. **File output**: The two tidy datasets will be written to the working directory as `tidy.whole.txt` and `tidy.average.txt` using `write.table` with `row.name = FALSE`.
-1. **Return**: Finally, the two tidy datasets are returned as `data.table` objects in a named list, with names `tidy.whole` and `tidy.average`.
+1. **Tidy data*: The combined, augmented dataset is molten into narrow form using the `reshape2` package's `melt` function. ``Subject`, `group`, and `activity` are taken as identifiers. This is now the tidy output data.
+1. **File output**: Written to the working directory as `har.tidy.txt` using `write.table` with `row.name = FALSE`.
+1. **Return**: The tidy dataset is returned from the function.
 
 ## Attribution and License
 The dataset used in this assignment requires the following citation and license:

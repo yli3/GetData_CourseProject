@@ -1,8 +1,8 @@
 # run_analysis
 #
 # This function cleans the Human Activity Recognition dataset, and
-# produces two output tidy data sets: one for all trials, and one for 
-# averaged trial values for each subject and activity. 
+# produces an output dity data set of averaged trial values 
+# for each subject and activity. 
 #
 # README.md contains more detailed information.
 # CodeBook.md describes the data structure.
@@ -11,8 +11,8 @@
 # Input: HAR dataset located in data/ subdirectory.
 #   The data will be acquired from online if not present.
 # Dependencies: data.table, reshape2
-# Output: tidy.whole.txt, tidy.average.txt
-# Return: Named list of data tables, with names 'tidy.whole' and 'tidy.average'
+# Output: har.tidy.txt
+# Return: har.tidy
 
 
 run_analysis <- function() {
@@ -125,30 +125,19 @@ run_analysis <- function() {
   dt.whole$activity <- y.whole
   dt.whole$subject <- subject.whole
 
-  # Create "trialNumber" variable as counter for different trials
-  # of the same activity type performed by each subject.
-  dt.whole[, trialNumber := seq_len(nrow(.SD)), by = .(subject, activity)]
-
   # Melt data.whole into tidy narrow format.
-  tidy.whole <- melt(dt.whole, 
-    id = c("subject", "group", "activity", "trialNumber"),
+  dt.whole <- melt(dt.whole, 
+    id = c("subject", "group", "activity"),
     variable.name = "measure"
   )
   
   # Create second data.table for trial averages per subject/activity pair.
-  tidy.average <- tidy.whole[, 
-    .(average = mean(value)),
+  har.tidy <- dt.whole[, 
+    .(trialAverage = mean(value)),
     by = .(subject, group, activity, measure)
   ]
   
-  # Output both files.
-  write.table(tidy.whole, file = "tidy.whole.txt", row.names = FALSE)
-  write.table(tidy.average, file = "tidy.average.txt", row.names = FALSE)
-  
-  # Return data tables in named list.
-  invisible(list(
-    tidy.whole = tidy.whole,
-    tidy.average = tidy.average
-  ))
-
+  # Output and return.
+  write.table(har.tidy, file = "har.tidy.txt", row.names = FALSE)
+  invisible(har.tidy)
 }
