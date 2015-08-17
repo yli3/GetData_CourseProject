@@ -12,7 +12,7 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
   - SITTING
   - STANDING
   - LAYING
-- `trialNumber`: integer(1), a unique identifier for trial number of a subject/activity pair.
+- `trialNumber`: `integer(1)`, a unique identifier for trial number of a subject/activity pair. (*`tidy.whole`* only)
 - `measure`: `factor` with 66 levels, indicating the type of measure. Possible values enumerated and described in detail in the following section.
 - `value`: `numeric(1)` measurement value for a given trial. (*`tidy.whole`* only) 
 - `average`: `numeric(1)` measurement average value over all trials for a subject/activity pair. (*`tidy.average`* only)
@@ -27,7 +27,7 @@ In addition to independent axial data, the Euclidean norm is used to consider th
 
 Full details of sensor parameters and calculation steps may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset. 
 
-The following naming convention is used for the 66 measures:
+The following naming convention is used for the 66 measures in our output data:
 
     prefix + component + units + .type. + stat
 
@@ -49,11 +49,15 @@ The following naming convention is used for the 66 measures:
   - *mean* for the estimated mean statistic of a signal.
   - *sd* for the estimated standard deviation statistic of a signal.
 
-For example,
+## Examples
 
-     freqBodyLinearAcceleration.Magnitude.mean
+    freqBodyLinearAcceleration.Magnitude.mean
 
-denotes the frequency-domain value of the estimated mean linear acceleration triaxial signal magnitude. Because this is a linear rather than angular measurement, it comes from the embedded accelerometer signals. Because this is a linear acceleration measurement, it is in units of standard gravities *g*.
+This denotes the estimated mean linear acceleration of the magnitude of the frequency-domain triaxial signal output by the embedded accelerometer. It is in units of standard gravities *g*. 
+
+    timeBodyAngularJerk.X.sd
+    
+This denotes the estimated angular jerk standard deviation of the *X*-component of the time-domain triaxial signal output by the embedded Gyroscope. It is in units of *rad/s<sup>3</sup>*.
 
 ### List of measures
 

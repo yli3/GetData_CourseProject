@@ -1,24 +1,26 @@
 ## Nota Bene
-This is a completed Course Project assignment for the GETDATA-031 course of the Data Science Specialization offered by the Johns Hopkins Bloomberg School of Public Health in August 2015. It will not be forked by me without notice here. If there are doubts about the authenticity of this project, please refer to the commit history.
+This is a completed Course Project assignment for the GETDATA-031 course of the Data Science Specialization offered by the Johns Hopkins Bloomberg School of Public Health in August 2015. It will not be forked by me without notice here. If there are doubts about the authenticity of this project, please refer to the commit history. Thanks, and happy reading! :)
 
 ## Introduction
 
 This assignment uses [tidy data principles \[PDF\]](http://vita.had.co.nz/papers/tidy-data.pdf) to clean an example dataset and produce tidy output.
 
-The data used is the [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) from the University of California at Irvine Machine Learning Repository. The specific file used was acquired from a [cloud archive](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) made available through the course.
+The dataset used is the [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) from the University of California at Irvine Machine Learning Repository. The data was provided as a zip file hosted on a [cloudfront mirror](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
 
 - **Dataset**: Human Activity Recognition Using Smartphones Data
-- **Description**: Inertial sensors from Samsung Galaxy SII smartphones were used to record data for 30 subjects as they performed each of six different "activities of daily living" (ADL). The objective of this data is to learn how to recognize human activity from inertial sensor measurements. 
+- **Description**: Inertial sensors from waist-mounted Samsung Galaxy SII smartphones were used to record data for 30 subjects as they performed each of six different "activities of daily living" (ADL).
 
-The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial. Of these, we are interested in 66 measures; they are described in detail in the included **CodeBook.md**.
+The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial.
 
 ### Goals
 Our aim is to provide tidy datasets for the unified experiment (that is, including all subjects from both `train` and `test` groups). Two tidy datasets will be provided:
 
-1. **tidy.whole**, a narrow dataset which includes all trials
-2. **tidy.average**, a narrow dataset of averages over trials of the same activity performed by each subject.
+1. **tidy.whole**, a narrow dataset which includes measurements from all trials
+2. **tidy.average**, a narrow dataset of average measurements over trials of the same activity performed by each subject.
 
-Both datasets will only include 66 measures of interest from the study. Please note that there are many valid interpretations, including this one, of which measures should be of interest to this assignment.
+Both tidy datasets will only include 66 measures of interest from the original study -- the mean, and the standard deviation of the 33 different signal types recorded by the study. They are described in detail in the included **CodeBook.md**.
+
+A note to the reader: our selection of "measures of interest" according to project specifications is open to different interpretations which are all valid as long as they are documented. There were 33 distinct signal types recorded in the study, and the explicitly defined "mean" and "standard deviation" estimates were regarded as part of the project specification. Other estimates and calculations such as "weighted average frequency component mean" and "averaged signals in signal window sample of angles between vectors" were not regarded as specified.
 
 ## Instructions
 
@@ -57,7 +59,7 @@ There are further **Inertial Signals** directories in each of the `data/train/` 
 ### Trial data measures
 Measurement data for each trial consists of 561 time and frequency domain variables, which are described in `data/features_info.txt`.
 
-The 561 time and frequency domain variables contain of various statistics (such as mean, max, and standard deviation)  for each of the 33 standard measures. These measures are reproduced below; an `-XYZ` suffix indicates there are three separate values, one for each of the `X`, `Y`, and `Z` axes.
+The 561 time and frequency domain variables are various statistics (of which we are only interested in the "mean" and "standard deviation")  estimated for each of the 33 signals collected by the experiment. These signals are reproduced below; an `-XYZ` suffix indicates three separate corresponding signals, one for each of the `X`, `Y`, and `Z` axes.
 
     tBodyAcc-XYZ
     tGravityAcc-XYZ
@@ -76,24 +78,22 @@ The 561 time and frequency domain variables contain of various statistics (such 
     fBodyAccJerkMag
     fBodyGyroMag
     fBodyGyroJerkMag
-    
-In addition to the above, the 561 time and frequency domain variables also contain additional means obtained by averaging signals in a signal window sample:
-
-    gravityMean
-    tBodyAccMean
-    tBodyAccJerkMean
-    tBodyGyroMean
-    tBodyGyroJerkMean
-
-These do not have corresponding standard deviations and are not considered in this assignment. 
-
-We will focus only on `mean` and `std` (standard deviation) measurements of the 33 standard measures described above, resulting in a total of 66 relevant standard measures.
 
 ## Cleaned data objectives
 
-Our objective is to produce dataset according to tidy data principles.
+Our objective is to produce tidy data. We will use the following criteria:
 
-Additionally, we will be providing the output in narrow, rather than wide form, such that each row contains only one measurement value. Either narrow or wide data may qualify as tidy, and the `reshape2` **R** package provides an easy interface between them.
+1. Each variable forms a column.
+1. Each observation forms a row.
+1. Each type of observational unit forms a table.
+
+We wil additionally adhere to the following principles:
+
+1. Descriptive and meaningful variable names
+1. Expressive variable values
+1. Uniquely identifiable observations
+
+Additionally, we elect to provide the data in narrow (also referred to as "tall" or "long"), rather than wide form, such that each table has only one measurement column. Either narrow or wide data may qualify as tidy, and the `reshape2` **R** package provides an easy interface between them.
 
 The information contained in our tidy output data will fall into two categories: **identifying variables** and **measurement variables**.
 
@@ -102,8 +102,8 @@ The information contained in our tidy output data will fall into two categories:
   - **subject**: identifies the subject by number (from 1 to 30).
   - **activty**: identifies the activity by name (either WALKING, WALKING\_UPSTAIRS, WALKING\_DOWNSTAIRS, SITTING, STANDING, or LAYING)
   - **group**: identifies to which group the subject belonged (either "train" or "test")
-  - **trialNumber**: for the `tidy.whole` dataset; this indicates the unique trial number for a subject/activity pair.
-  - **measure**: identifies the type of measure, of the 66 measures of interest. The names are listed in `CodeBook.md`.
+  - **trialNumber**: for the `tidy.whole` dataset; this indicates the unique trial number for a subject/activity pair and allows each observation to be uniquely identified.
+  - **measure**: identifies the type of measure (of 66 measures of interest). The possible values are delineated in `CodeBook.md`.
   
 ### Measurement variables
 
@@ -112,18 +112,17 @@ The information contained in our tidy output data will fall into two categories:
   
 ## run_analysis() Summary
 
-`run_analysis` makes use of the `data.table` and `reshape2` packages. It will follow the sequence below:
-
+`run_analysis` makes use of the `data.table` and `reshape2` packages, and will follow this general prescription:
 
 1. **Acquire data**: A check is first made to ensure the data is already present in a `./data` subdirectory of the working directory. If not, it is acquired from [cloudfront archive](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
-1. **Read data**: Data is read in. `X_train.txt` and `X_test.txt` are read as `data.table` objects. Other files -- `activity.txt`, `features.txt`, `y_train.txt`, `y_test.txt`, `subject_train.txt`, and `subject_test.txt` -- are read as auxiliary data in various formats to help us complete and clean the `train` and `test` datasets for tidy output.
+1. **Read data**: Data is read in formats as appropriate.
 1. **Cleaning data**:
-  - **Feature selection**: Subset the 66 measures of interest from the `train` and `test` datasets by pattern matching `features.txt`.
-  - **Expressive measure names**: Assign expressive variable names to the `train`/`test` datasets. Pattern substitution is employed to conform original `features.txt` names to our own convention as detailed in **CodeBook.md**.
-  - **Merge datasets**: The `train` and `test` datasets are merged together.
-  - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), group (either "train" or "test"), and trial number (determined by index count within distinct subject/activity pairs).
-1. **Narrow data: tidy.whole**: The combined, augmented dataset is molten into tidy narrow (also known as "long" or "tall") form using the `reshape2` package's `melt` function. ``Subject`, `group`, `activity`, and `trialNumber` are taken as identifiers. This is now the `tidy.whole` dataset.
-1. **Averages over trials: tidy.average**: Each (of 30) subjects performed trials for each (of 6) activities multiple times. The per-activity average measurements for each subject are calculated and gathered into a dataset we call `tidy.average`.
+  - **Feature selection**: Cull only the 66 measures of interest from the read data.
+  - **Expressive variable names**: Assign expressive variable names to the data, using pattern matching where appropriate to conform provided names to our own convention (refer to **CodeBook.md**). 
+  - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), group (either "train" or "test"), and trial number (determined by index count within distinct subject/activity pairs). *n.b.* group and trial number are not strictly required, but for our purposes are considered helpful for tidy principles.
+  - **Merge data**: Combine all data related to test and trial groups in one dataset.
+1. **tidy.whole**: The combined, augmented dataset is molten into narrow form using the `reshape2` package's `melt` function. ``Subject`, `group`, `activity`, and `trialNumber` are taken as identifiers. This is now the `tidy.whole` dataset.
+1. **tidy.average**: Each (of 30) subjects performed trials for each (of 6) activities multiple times. The per-activity average over trials measurements for each subject are calculated and gathered into a dataset we call `tidy.average`.
 1. **File output**: The two tidy datasets will be written to the working directory as `tidy.whole.txt` and `tidy.average.txt` using `write.table` with `row.name = FALSE`.
 1. **Return**: Finally, the two tidy datasets are returned as `data.table` objects in a named list, with names `tidy.whole` and `tidy.average`.
 
