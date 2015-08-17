@@ -18,9 +18,9 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
 
 ## Measure Dictionary
 
-There are 66 different measures of interest. These measures were taken by either accelerometer or gyroscope embedded sensors in Samsung Galaxy SII smartphones.
+There are 66 different measures of interest. These measures were taken by either accelerometer (which measures linear acceleration and, via time derivative, linear jerk) or gyroscope (which measures angular velocity and, via the second time derivative, angular jerk) embedded sensors in Samsung Galaxy SII smartphones.
 
-Both the accelerometer (which measures linear acceleration) and the gyroscope (which measures angular velocity) produce triaxial signals -- that is, separate signals for the *X*, *Y*, and *Z* axes. These signals were filtered for noise and further filtered into separate "Body" and "Gravity" components by assuming the components of the signals due to gravity were low frequency components. 
+Both the accelerometer and the gyroscope produce triaxial signals -- that is, separate signals for the *X*, *Y*, and *Z* axes. These signals were filtered for noise and further filtered into separate "Body" and "Gravity" components by assuming the components of the signals due to gravity were low frequency components.
 
 In addition to independent axial data, the Euclidean norm is used to consider the magnitude of the whole triaxial signal.
 
@@ -47,6 +47,12 @@ The following naming convention is used for the 66 measures:
 1. **stat**:
   - *mean* for the estimated mean statistic of a signal.
   - *sd* for the estimated standard deviation statistic of a signal.
+
+For example,
+
+     freqBodyLinearAcceleration.Magnitude.mean
+
+denotes the frequency-domain value of the estimated mean linear acceleration triaxial signal magnitude. Because this is a linear rather than angular measurement, it comes from the embedded accelerometer signals. Because this is a linear acceleration measurement, it is in units of standard gravity units *g*.
 
 ### List of measures
 
