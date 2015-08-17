@@ -5,24 +5,24 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
 
 - `subject`:  `integer(1)` with possible values from 1 to 30.
 - `group`: `character(1)`, either "train" or "test".
-- `activity`: `character(1)`, with one of six possible values:
+- `activity`: `factor`, with six levels:
   - WALKING
   - WALKING\_UPSTAIRS
   - WALKING\_DOWNSTAIRS
   - SITTING
   - STANDING
   - LAYING
-- `measure`: `character(1)`, with one of 66 possible values detailed in the following section.
+- `measure`: `factor` with 66 levels, indicating the type of measure. Possible values enumerated and described in detail in the following section.
 - `value`: `numeric(1)` measurement value for a given trial. (*`tidy.whole`* only) 
 - `average`: `numeric(1)` measurement average value over all trials for a given subject/activity pair. (*`tidy.average`* only)
 
 ## Measure Dictionary
 
-There are 66 different measures of interest. These measures were taken by either accelerometer or gyroscope embedded sensors in Samsung Galaxy SII smartphones. Full details of sensor parameters may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
+There are 66 different measures of interest. These measures were taken by either accelerometer or gyroscope embedded sensors in Samsung Galaxy SII smartphones. Full details of sensor parameters and calculation steps may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
 
-The following naming convention is used for the 66 measures.
+The following naming convention is used for the 66 measures:
 
-    prefix + component + units + "."type"." + stat
+    prefix + component + units + .type. + stat
 
 1. **prefix**: 
   - *time* for a time-domain signal.
@@ -37,10 +37,10 @@ The following naming convention is used for the 66 measures.
   - *AngularJerk* for a calculation of angular jerk (second time derivative of angular velocity) in units of `rad/s^3`.
 1. **type**:
   - *X*, *Y*, or *Z* for an x-, y-, or z-axis component of a signal.
-  - *Mag* for the magnitude (Euclidean norm) of a 3-dimensional signal.
+  - *Magnitude* for the magnitude (Euclidean norm) of a 3-dimensional signal.
 1. **stat**:
-  - *mean* for estimated mean of a signal.
-  - *std* for estimated standard deviation of a signal.
+  - *mean* for the estimated mean statistic of a signal.
+  - *std* for the estimated standard deviation statistic of a signal.
 
 ### List of measures
 

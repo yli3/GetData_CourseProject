@@ -10,15 +10,15 @@ The data used is the [Human Activity Recognition Using Smartphones Data Set](htt
 - **Dataset**: Human Activity Recognition Using Smartphones Data
 - **Description**: Inertial sensors from Samsung Galaxy SII smartphones were used to record data for 30 subjects as they performed each of six different "activities of daily living" (ADL). The objective of this data is to learn how to recognize human activity from inertial sensor measurements. 
 
-The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial. Of these, we are interested in 66 measurements. Those measurements and the data structure of the output are described in detail in the included **CodeBook.md**.
+The 30 subjects were divided into `train` (21 subjects) and `test` (9 subjects) groups. All subjects performed each activity multiple times, and numerous measurement data were collected for each trial. Of these, we are interested in 66 measures; they are described in detail in the included **CodeBook.md**.
 
-Our aim is to merge the `train` and `test` sets and provide two tidy datasets: one containing records of the 66 measures of interest for all trials, and one containing average values of the 66 measures over trials conducted by the same subject for the same activity.
+Our aim is to provide tidy datasets for the unified experiment (that is, including all subjects from both `train` and `test` groups). 
 
 ## Instructions
 
-Source `run_analysis.R` and call the function `run_analysis()`. The data files are expected to be located in a `./data` subdirectory of the working directory; it will be automatically acquired if not present. 
+Source `run_analysis.R` and call the function `run_analysis()`. The data files are expected to be located in a `./data` subdirectory of the working directory; they will be automatically acquired if not present. 
 
-*n.b.* the .zip file provides data in a folder called "UCI HAR Dataset". This folder should be **renamed** to `data` open extraction; alternatively, leave download and extraction to `run_analysis`.
+*n.b.* the .zip file provides data in a folder called "UCI HAR Dataset". This folder should be renamed to `data` upon extraction; alternatively, leave download and extraction to `run_analysis`.
 
 ### run_analysis() Specification
 
