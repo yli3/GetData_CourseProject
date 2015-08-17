@@ -18,7 +18,13 @@ This codebook describes the structure of the `tidy.whole` and `tidy.average` dat
 
 ## Measure Dictionary
 
-There are 66 different measures of interest. These measures were taken by either accelerometer or gyroscope embedded sensors in Samsung Galaxy SII smartphones. Full details of sensor parameters and calculation steps may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
+There are 66 different measures of interest. These measures were taken by either accelerometer or gyroscope embedded sensors in Samsung Galaxy SII smartphones.
+
+Both the accelerometer (which measures linear acceleration) and the gyroscope (which measures angular velocity) produce triaxial signals -- that is, separate signals for the *X*, *Y*, and *Z* axes. These signals were filtered for noise and further filtered into separate "Body" and "Gravity" components by assuming the components of the signals due to gravity were low frequency components. 
+
+In addition to independent axial data, the Euclidean norm is used to consider the magnitude of the whole triaxial signal.
+
+Full details of sensor parameters and calculation steps may be found in the `features_info.txt` file included in the source Human Activity Recognition dataset.
 
 The following naming convention is used for the 66 measures:
 
@@ -26,10 +32,10 @@ The following naming convention is used for the 66 measures:
 
 1. **prefix**: 
   - *time* for a time-domain signal.
-  - *freq* for a frequency-domain signal.
+  - *freq* for a frequency-domain signal calculated via Fast Fourier Transform (FFT) on the corresponding time-domain signal.
 1. **component**:
-  - *Body* for body component of a signal.
-  - *Gravity* for gravity component of a signal.
+  - *Body* for component of the signal attributed to movement of the human body.
+  - *Gravity* for component of the signal attributed to gravity (assumed to be low frequency).
 1. **units**:
   - *LinearAcceleration* for a measurement of linear acceleration (via accelerometer) in units of standard gravity (*g* approximately `9.8 m/s^2`).
   - *LinearJerk* for a calculation of linear jerk (time derivative of linear acceleration) in units of `m/s^3`.
