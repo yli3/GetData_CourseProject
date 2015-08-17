@@ -4,7 +4,8 @@
 # produces two output tidy data sets: one for all trials, and one for 
 # averaged trial values for each subject and activity. 
 #
-# Refer to README.md for more detailed information.
+# README.md contains more detailed information.
+# CodeBook.md describes the data structure.
 #
 # Args: None.
 # Input: HAR dataset located in data/ subdirectory.
@@ -112,7 +113,7 @@ run_analysis <- function() {
   train.x$subject <- train.subject
   test.x$subject <- test.subject
   
-  # Create new variables indicating "train" or "test".
+  # Create new variable to preserve original group information.
   train.x$group <- "train"
   test.x$group <- "test"
   
