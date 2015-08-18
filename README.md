@@ -108,7 +108,7 @@ The information contained in our tidy output data will fall into two categories:
   - **Expressive variable names**: Assign expressive variable names and values to the data, using pattern matching where appropriate to conform provided names to our own convention (refer to **CodeBook.md**). 
   - **Add identifying variables**: Add subject number (from `subject_*.txt`) activity name (from `y_*.txt`, mapped to `activity.txt`), and group (either "train" or "test"). *n.b.* group is not strictly specified, but we want to prevent loss of data resolution.
   - **Merge data**: Combine all data related to test and trial groups in one dataset.
-1. **Tidy data*: The combined, augmented dataset is molten into narrow form using the `reshape2` package's `melt` function. ``Subject`, `group`, and `activity` are taken as identifiers. This is now the tidy output data.
+1. **Tidy data**: The combined, augmented dataset is molten into narrow form using the `reshape2` package's `melt` function. ``Subject`, `group`, and `activity` are taken as identifiers. This is now the tidy output data.
 1. **File output**: Written to the working directory as `har.tidy.txt` using `write.table` with `row.name = FALSE`.
 1. **Return**: The tidy dataset is returned from the function.
 
