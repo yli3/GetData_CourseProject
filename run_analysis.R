@@ -1,7 +1,7 @@
 # run_analysis
 #
 # This function cleans the Human Activity Recognition dataset, and
-# produces an output dity data set of averaged trial values 
+# produces an output tidy data set of averaged trial values 
 # for each subject and activity. 
 #
 # README.md contains more detailed information.
@@ -12,7 +12,7 @@
 #   The data will be acquired from online if not present.
 # Dependencies: data.table, reshape2
 # Output: har.tidy.txt
-# Return: har.tidy
+# Return: har.tidy, a narrow form tidy data.table.
 
 
 run_analysis <- function() {
