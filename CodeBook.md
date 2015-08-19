@@ -13,7 +13,7 @@ This codebook describes the structure of the `har.tidy` dataset, and provides a 
   - `standing`
   - `laying`
 - `measure`: `factor` with 66 levels, indicating the type of measure. Possible values enumerated and described in detail in the following section.
-- `trialAverage`: `numeric(1)` measurement average value over all trials for a subject/activity pair. (*`tidy.average`* only)
+- `trialAverage`: `numeric(1)`  average measurement value over all trials for a subject/activity pair.
 
 ## Measure Dictionary
 
